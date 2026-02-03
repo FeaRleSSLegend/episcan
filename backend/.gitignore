@@ -1,0 +1,72 @@
+# --- Python Internals ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.pyo
+*.pyd
+
+# --- Virtual Environments (Crucial) ---
+.venv/
+venv/
+env/
+ENV/
+bin/
+lib/
+include/
+share/
+pyvenv.cfg
+
+# --- Sensitive Data & API Keys ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+service_role.json
+supabase_key.txt
+
+# --- Build & Distribution ---
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Testing & Linting ---
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+htmlcov/
+.hypothesis/
+nosetests.xml
+coverage.xml
+
+# --- Database & Local Data ---
+*.db
+*.sqlite3
+backend/temp_data/
+demo_data_backup.csv
+/migrations/
+
+# --- IDE & OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo

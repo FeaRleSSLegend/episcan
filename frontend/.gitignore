@@ -1,0 +1,58 @@
+# --- SYSTEM FILES ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+!.vscode/extensions.json
+.idea/
+
+# --- FRONTEND (React/Vite/Node) ---
+node_modules/
+dist/
+dist-ssr/
+build/
+*.local
+.npm/
+.eslintcache
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# --- BACKEND (Python/FastAPI) ---
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.toast
+.cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.bak
+
+# --- SENSITIVE DATA (CRITICAL) ---
+.env
+.env.development
+.env.production
+.env.local
+supabase/.temp/
+*.pem
+*.key
+
+# --- LOGS & DEBUGGING ---
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- PROJECT SPECIFIC ---
+# If you generate local demo data or CSVs that shouldn't be public
+backend/temp_data/
+frontend/public/mock_data/*.json
