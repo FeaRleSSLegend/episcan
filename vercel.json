@@ -11,14 +11,19 @@
       "use": "@vercel/python"
     }
   ],
+  "functions": {
+    "backend/main.py": {
+      "runtime": "vercel-python@0.14.0"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "backend/main.py"
+      "destination": "/backend/main.py"
     },
     {
-      "source": "/(.*)",
-      "destination": "frontend/$1"
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
     }
   ]
 }
