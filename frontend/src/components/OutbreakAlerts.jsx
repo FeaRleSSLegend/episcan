@@ -24,8 +24,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 /**
  * Configuration
+ * NOTE: In production (Vercel), /api is rewritten to the Python backend via vercel.json
  */
-const FASTAPI_URL = import.meta.env.VITE_FASTAPI_URL || 'http://localhost:8000';
+const FASTAPI_URL = import.meta.env.VITE_FASTAPI_URL || '/api';
 const REFRESH_INTERVAL = 30000; // Refresh alerts every 30 seconds
 
 /**

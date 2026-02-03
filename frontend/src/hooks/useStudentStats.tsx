@@ -153,9 +153,10 @@ export const useStudentStats = (userId: string | undefined): StudentStats => {
         }
 
         // 3b. Also check FastAPI for outbreak alerts at user's location
+        // NOTE: In production (Vercel), /api is rewritten to the Python backend via vercel.json
         if (userLocation) {
           try {
-            const fastApiUrl = import.meta.env.VITE_FASTAPI_URL || 'http://localhost:8000';
+            const fastApiUrl = import.meta.env.VITE_FASTAPI_URL || '/api';
             const alertsResponse = await fetch(`${fastApiUrl}/alerts`);
             if (alertsResponse.ok) {
               const outbreakAlerts = await alertsResponse.json();
