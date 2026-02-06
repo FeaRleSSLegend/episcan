@@ -3,9 +3,8 @@
   "buildCommand": "npm run build",
   "outputDirectory": "frontend/dist",
   "installCommand": "npm install",
-  "framework": null,
   "functions": {
-    "backend/main.py": {
+    "backend/*.py": {
       "runtime": "python3.9"
     }
   },
