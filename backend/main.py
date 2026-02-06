@@ -21,6 +21,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from supabase import create_client, Client
 from dotenv import load_dotenv
+from mangum import Mangum
 
 # Load environment variables
 load_dotenv()
@@ -459,3 +460,6 @@ if __name__ == "__main__":
         port=FASTAPI_PORT,
         reload=True  # Auto-reload on code changes (dev mode)
     )
+
+# Vercel serverless handler
+handler = Mangum(app)

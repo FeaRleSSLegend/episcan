@@ -4,26 +4,21 @@
     {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "config": { "distDir": "frontend/dist" }
     },
     {
       "src": "backend/main.py",
       "use": "@vercel/python"
     }
   ],
-  "functions": {
-    "backend/main.py": {
-      "runtime": "vercel-python@0.14.0"
-    }
-  },
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "/backend/main.py"
+      "src": "/api/(.*)",
+      "dest": "backend/main.py"
     },
     {
-      "source": "/((?!api/).*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "frontend/dist/$1"
     }
   ]
 }
