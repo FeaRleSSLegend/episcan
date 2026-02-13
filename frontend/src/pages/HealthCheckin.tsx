@@ -13,17 +13,58 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 
+// ✅ UPDATED: Added tooltip descriptions for each symptom
 const symptoms = [
-  { id: "fever", label: "Fever or chills" },
-  { id: "cough", label: "Cough" },
-  { id: "headache", label: "Headache" },
-  { id: "fatigue", label: "Fatigue or tiredness" },
-  { id: "sore_throat", label: "Sore throat" },
-  { id: "runny_nose", label: "Runny or stuffy nose" },
-  { id: "body_aches", label: "Muscle or body aches" },
-  { id: "nausea", label: "Nausea or vomiting" },
-  { id: "diarrhea", label: "Diarrhea" },
-  { id: "breathing", label: "Difficulty breathing" },
+  { 
+    id: "fever", 
+    label: "Fever or chills",
+    tooltip: "Body temperature above 100.4°F (38°C), feeling unusually hot or cold, shivering, sweating. May indicate infection or illness."
+  },
+  { 
+    id: "cough", 
+    label: "Cough",
+    tooltip: "Persistent coughing, dry or productive (with mucus). Can be from respiratory infection, allergies, or irritation. Note if there's blood or color in mucus."
+  },
+  { 
+    id: "headache", 
+    label: "Headache",
+    tooltip: "Pain or pressure in the head, temples, or behind eyes. Can range from mild to severe. Note location, duration, and if accompanied by nausea or light sensitivity."
+  },
+  { 
+    id: "fatigue", 
+    label: "Fatigue or tiredness",
+    tooltip: "Unusual exhaustion, lack of energy, difficulty staying awake or alert. More severe than normal tiredness. May affect ability to concentrate or perform daily activities."
+  },
+  { 
+    id: "sore_throat", 
+    label: "Sore throat",
+    tooltip: "Pain, scratchiness, or irritation in the throat that worsens when swallowing. May see redness, white patches, or swollen tonsils. Common with viral or bacterial infections."
+  },
+  { 
+    id: "runny_nose", 
+    label: "Runny or stuffy nose",
+    tooltip: "Nasal congestion, excessive mucus production, sneezing, difficulty breathing through nose. Can be clear (allergies/cold) or colored (infection). May have sinus pressure."
+  },
+  { 
+    id: "body_aches", 
+    label: "Muscle or body aches",
+    tooltip: "Widespread pain or soreness in muscles and joints. Common with flu, infections, or inflammation. Different from localized injury pain - affects multiple body areas."
+  },
+  { 
+    id: "nausea", 
+    label: "Nausea or vomiting",
+    tooltip: "Feeling sick to stomach, urge to vomit, or actual vomiting. May be from stomach bug, food poisoning, motion sickness, or other illness. Note frequency and what triggers it."
+  },
+  { 
+    id: "diarrhea", 
+    label: "Diarrhea",
+    tooltip: "Loose or watery stools, increased frequency of bowel movements. Can lead to dehydration. May be from infection, food intolerance, or stomach virus. Note if there's blood or severe cramping."
+  },
+  { 
+    id: "breathing", 
+    label: "Difficulty breathing",
+    tooltip: "Shortness of breath, wheezing, chest tightness, rapid breathing. Can be serious - may indicate asthma, allergic reaction, or respiratory infection. Seek immediate care if severe."
+  },
 ];
 
 const severityOptions = [
@@ -46,7 +87,7 @@ const locationOptions = [
 const HealthCheckin = () => {
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
   const [temperature, setTemperature] = useState("");
-  const [location, setLocation] = useState("");  // ✅ ADDED: Location field
+  const [location, setLocation] = useState("");
   const [notes, setNotes] = useState("");
   const [severity, setSeverity] = useState("none");
   const [submitted, setSubmitted] = useState(false);
@@ -56,7 +97,7 @@ const HealthCheckin = () => {
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
-  const navigate = useNavigate();  // ✅ ADDED: For redirect after submission
+  const navigate = useNavigate();
 
   const generateInviteCode = async () => {
     if (!user) return;
@@ -121,7 +162,6 @@ const HealthCheckin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ✅ VALIDATION: Check if user is logged in
     if (!user) {
       toast({
         title: "Error",
@@ -131,7 +171,6 @@ const HealthCheckin = () => {
       return;
     }
 
-    // ✅ VALIDATION: Check if location is selected
     if (!location) {
       toast({
         title: "Location Required",
@@ -144,29 +183,24 @@ const HealthCheckin = () => {
     setIsSubmitting(true);
 
     try {
-      // ✅ FIXED: Match health_reports table schema exactly
       const reportData = {
-        user_id: user.id,              // ✅ Links report to logged-in user
-        symptoms: selectedSymptoms,     // ✅ Array of strings (e.g., ['fever', 'cough'])
-        temperature: temperature ? parseFloat(temperature) : null,  // ✅ Float or null
-        location: location,             // ✅ Required field (e.g., 'Hostel A')
-        // REMOVED: notes and severity (not in health_reports schema)
+        user_id: user.id,
+        symptoms: selectedSymptoms,
+        temperature: temperature ? parseFloat(temperature) : null,
+        location: location,
       };
 
-      // ✅ FIXED: Changed from 'symptom_reports' to 'health_reports'
       const { error } = await supabase
         .from("health_reports")
         .insert(reportData);
 
       if (error) throw error;
 
-      // ✅ SUCCESS: Show toast and redirect to dashboard
       toast({
         title: "✅ Health check-in submitted!",
         description: "Thank you for your daily health report. Redirecting to dashboard...",
       });
 
-      // ✅ ADDED: Redirect to dashboard after 1.5 seconds
       setTimeout(() => {
         navigate("/dashboard");
       }, 1500);
@@ -187,7 +221,7 @@ const HealthCheckin = () => {
   const resetForm = () => {
     setSelectedSymptoms([]);
     setTemperature("");
-    setLocation("");  // ✅ ADDED: Reset location
+    setLocation("");
     setNotes("");
     setSeverity("none");
     setSubmitted(false);
@@ -203,31 +237,17 @@ const HealthCheckin = () => {
               <CheckCircle2 className="h-8 w-8 sm:h-10 sm:w-10 text-success" />
             </div>
             <h2 className="font-heading text-xl sm:text-2xl font-bold text-foreground mb-2 sm:mb-3">
-              Check-in Complete!
+              Thank You!
             </h2>
-            <p className="text-muted-foreground text-sm sm:text-base mb-4 sm:mb-6">
-              Thank you for submitting your daily health report. Stay healthy and have a great day!
+            <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6">
+              Your health check-in has been submitted successfully. We'll monitor your symptoms and let you know if any action is needed.
             </p>
-            
-            {/* Health Tips */}
-            <div className="bg-primary/5 rounded-xl p-4 mb-6 text-left">
-              <h3 className="font-medium text-foreground mb-2 flex items-center gap-2">
-                <Activity className="h-4 w-4 text-primary" />
-                Health Tips
-              </h3>
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• Stay hydrated - drink plenty of water</li>
-                <li>• Get enough rest (8+ hours of sleep)</li>
-                <li>• Wash hands frequently</li>
-              </ul>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button onClick={() => navigate("/dashboard")} className="w-full sm:w-auto">
-                View Dashboard
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <Button onClick={resetForm} variant="outline" className="flex-1">
+                Submit Another
               </Button>
-              <Button variant="outline" onClick={resetForm} className="w-full sm:w-auto">
-                Submit Another Report
+              <Button onClick={() => navigate("/dashboard")} className="flex-1">
+                Back to Dashboard
               </Button>
             </div>
           </div>
@@ -238,14 +258,10 @@ const HealthCheckin = () => {
 
   return (
     <DashboardLayout userRole="student">
-      <DashboardHeader 
-        title="Daily Health Check-in" 
-        subtitle="How are you feeling today?"
-      />
-      
-      <div className="p-4 sm:p-6 max-w-2xl mx-auto">
+      <DashboardHeader title="Daily Health Check-in" />
+      <div className="p-4 sm:p-6 max-w-4xl mx-auto">
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-          {/* Symptoms Selection */}
+          {/* Symptoms */}
           <div className="bg-card rounded-xl border border-border p-4 sm:p-6">
             <div className="flex items-center gap-3 mb-4 sm:mb-6">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -261,34 +277,37 @@ const HealthCheckin = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+            {/* ✅ UPDATED: Added group wrapper with custom CSS for tooltips */}
+            <div className="symptom-grid grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
               {symptoms.map((symptom) => (
-                <label
+                <div
                   key={symptom.id}
-                  className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border cursor-pointer transition-colors ${
-                    selectedSymptoms.includes(symptom.id)
-                      ? "border-primary bg-primary/5"
-                      : "border-border hover:border-primary/30"
-                  }`}
+                  className="symptom-card relative flex items-center gap-3 p-3 sm:p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 hover:bg-primary/5 hover:-translate-y-0.5 hover:shadow-md"
+                  onClick={() => handleSymptomToggle(symptom.id)}
+                  style={{
+                    borderColor: selectedSymptoms.includes(symptom.id) ? "hsl(var(--primary))" : "hsl(var(--border))",
+                    backgroundColor: selectedSymptoms.includes(symptom.id) ? "hsl(var(--primary) / 0.05)" : "transparent",
+                  }}
                 >
                   <Checkbox
                     checked={selectedSymptoms.includes(symptom.id)}
                     onCheckedChange={() => handleSymptomToggle(symptom.id)}
+                    className="pointer-events-none"
                   />
-                  <span className="text-foreground text-sm sm:text-base">{symptom.label}</span>
-                </label>
+                  <label className="flex-1 text-sm sm:text-base cursor-pointer select-none">
+                    {symptom.label}
+                  </label>
+                  
+                  {/* ✅ TOOLTIP - Shows on hover */}
+                  <div className="symptom-tooltip">
+                    <div className="symptom-tooltip-title">What to look for:</div>
+                    <div className="symptom-tooltip-description">{symptom.tooltip}</div>
+                  </div>
+                </div>
               ))}
             </div>
-
-            {selectedSymptoms.length === 0 && (
-              <div className="mt-4 p-3 sm:p-4 bg-success/10 rounded-lg flex items-center gap-2 sm:gap-3">
-                <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-success flex-shrink-0" />
-                <span className="text-success font-medium text-sm sm:text-base">No symptoms? Great! You're feeling healthy.</span>
-              </div>
-            )}
           </div>
 
-          {/* Severity Selection - Only show if symptoms selected */}
           {selectedSymptoms.length > 0 && (
             <div className="bg-card rounded-xl border border-border p-4 sm:p-6">
               <div className="flex items-center gap-3 mb-4 sm:mb-6">
@@ -485,6 +504,72 @@ const HealthCheckin = () => {
           )}
         </div>
       </div>
+
+      {/* ✅ ADDED: CSS for symptom tooltips */}
+      <style>{`
+        .symptom-card {
+          position: relative;
+        }
+
+        .symptom-tooltip {
+          visibility: hidden;
+          opacity: 0;
+          position: absolute;
+          z-index: 1000;
+          background: hsl(var(--popover));
+          color: hsl(var(--popover-foreground));
+          padding: 12px 14px;
+          border-radius: 8px;
+          font-size: 12px;
+          line-height: 1.4;
+          width: 320px;
+          bottom: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+          margin-bottom: 8px;
+          transition: opacity 0.3s, visibility 0.3s;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          pointer-events: none;
+          border: 1px solid hsl(var(--border));
+        }
+
+        .symptom-tooltip::before {
+          content: "";
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          margin-left: -6px;
+          border-width: 6px;
+          border-style: solid;
+          border-color: hsl(var(--popover)) transparent transparent transparent;
+        }
+
+        .symptom-card:hover .symptom-tooltip {
+          visibility: visible;
+          opacity: 1;
+        }
+
+        .symptom-tooltip-title {
+          font-weight: 600;
+          margin-bottom: 4px;
+          color: hsl(var(--primary));
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .symptom-tooltip-description {
+          color: hsl(var(--muted-foreground));
+          font-size: 12px;
+        }
+
+        @media (max-width: 640px) {
+          .symptom-tooltip {
+            width: 280px;
+            font-size: 11px;
+          }
+        }
+      `}</style>
     </DashboardLayout>
   );
 };
