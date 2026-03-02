@@ -54,15 +54,15 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",  # Vite default dev server
+        "http://localhost:5173",
         "http://127.0.0.1:5173",
-        "http://localhost:8080",  # Production build server
+        "http://localhost:8080",
         "http://127.0.0.1:8080",
-        "episcan-three.vercel.app"
+        os.getenv("FRONTEND_URL", ""),
     ],
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # ============================================================================
