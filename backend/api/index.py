@@ -48,6 +48,7 @@ app = FastAPI(
     title="EPISCAN API",
     description="AI-powered early warning system for school disease outbreaks",
     version="1.0.0",
+    root_path="/api"
 )
 
 # Configure CORS to allow requests from React frontend
