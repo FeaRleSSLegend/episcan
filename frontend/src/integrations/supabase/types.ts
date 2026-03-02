@@ -50,6 +50,41 @@ export type Database = {
         }
         Relationships: []
       }
+      health_reports: {
+        Row: {
+          id: string
+          user_id: string
+          symptoms: string[]
+          temperature: number | null
+          location: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          symptoms?: string[]
+          temperature?: number | null
+          location: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          symptoms?: string[]
+          temperature?: number | null
+          location?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "health_reports_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          }
+        ]
+      }
       invite_codes: {
         Row: {
           code: string
@@ -270,6 +305,74 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      system_notifications: {
+        Row: {
+          id: string
+          title: string
+          message: string
+          audience: string
+          priority: string
+          status: string
+          created_by: string | null
+          sent_at: string | null
+          scheduled_for: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          message: string
+          audience?: string
+          priority?: string
+          status?: string
+          created_by?: string | null
+          sent_at?: string | null
+          scheduled_for?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          message?: string
+          audience?: string
+          priority?: string
+          status?: string
+          created_by?: string | null
+          sent_at?: string | null
+          scheduled_for?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      user_notification_reads: {
+        Row: {
+          id: string
+          notification_id: string
+          user_id: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          notification_id: string
+          user_id: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          notification_id?: string
+          user_id?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_notification_reads_notification_id_fkey"
+            columns: ["notification_id"]
+            isOneToOne: false
+            referencedRelation: "system_notifications"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {

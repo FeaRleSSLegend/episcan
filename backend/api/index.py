@@ -48,7 +48,6 @@ app = FastAPI(
     title="EPISCAN API",
     description="AI-powered early warning system for school disease outbreaks",
     version="1.0.0",
-    root_path="/api"
 )
 
 # Configure CORS to allow requests from React frontend
@@ -59,6 +58,7 @@ app.add_middleware(
         "http://127.0.0.1:5173",
         "http://localhost:8080",  # Production build server
         "http://127.0.0.1:8080",
+        "episcan-three.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],  # Allow all methods (GET, POST, etc.)

@@ -113,6 +113,7 @@ const HealthReportsFilter = ({
         // Transform the data to match our interface
         const transformedData = (data || []).map((report: any) => ({
           ...report,
+          // Use 'profiles' because that is the alias you set in the .select()
           profile: report.profiles ? {
             full_name: report.profiles.full_name,
             email: report.profiles.email,

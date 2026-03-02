@@ -24,9 +24,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 /**
  * Configuration
- * NOTE: In production (Vercel), /api is rewritten to the Python backend via vercel.json
+ * NOTE: In production, you will set VITE_FASTAPI_URL in your Vercel Environment Variables to your new Render URL 
+ * (e.g., https://episcan-api.onrender.com).
  */
-const FASTAPI_URL = import.meta.env.VITE_FASTAPI_URL || '/api';
+const FASTAPI_URL = import.meta.env.VITE_FASTAPI_URL || 'http://localhost:8000';
 const REFRESH_INTERVAL = 30000; // Refresh alerts every 30 seconds
 
 /**
