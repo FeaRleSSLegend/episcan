@@ -57,6 +57,8 @@ export type Database = {
           symptoms: string[]
           temperature: number | null
           location: string
+          notes: string | null        
+          severity: string | null     
           created_at: string
         }
         Insert: {
@@ -65,6 +67,8 @@ export type Database = {
           symptoms?: string[]
           temperature?: number | null
           location: string
+          notes?: string | null       
+          severity?: string | null    
           created_at?: string
         }
         Update: {
@@ -73,6 +77,8 @@ export type Database = {
           symptoms?: string[]
           temperature?: number | null
           location?: string
+          notes?: string | null       // ← add
+          severity?: string | null    // ← add
           created_at?: string
         }
         Relationships: [
